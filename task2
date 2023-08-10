@@ -1,0 +1,70 @@
+
+# كود حساس من نوع Digital
+------------------
+int buttonState = 0;
+
+void setup()
+{
+  pinMode(2, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  // read the input pin
+  buttonState = digitalRead(2);
+  // print out the state of the button
+  Serial.println(buttonState);
+  delay(10); // Delay a little bit to improve simulation performance
+}
+
+--------------------------------
+
+# كود برمجه حساس المسافة مع الاضاءة 
+
+----------------------------
+#define echoPin 7 // attach pin D7 Arduino to pin Echo of HC-SR04
+#define trigPin 6 //attach pin D6 Arduino to pin Trig of HC-SR04
+
+// defines variables
+long duration; // variable for the duration of sound wave travel
+int distance; // variable for the distance measurement (cm)
+int inches; // variable for inches measurment
+
+void setup() {
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+  Serial.begin(9600); // // Serial Communication is starting with 9600 of baudrate speed
+  Serial.println("Ultrasonic Sensor HC-SR04 Test"); // print some text in Serial Monitor
+  Serial.println("with Arduino UNO R3");
+  pinMode(13,OUTPUT);
+}
+void loop() {
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  inches = distance * 0.394;
+  
+  if(inches<12){
+   digitalWrite(13,HIGH); 
+  }
+  else{
+    digitalWrite(13,LOW); 
+  }
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  Serial.print("Distance: ");
+  Serial.print(inches);
+  Serial.println(" inches");
+  
+}
